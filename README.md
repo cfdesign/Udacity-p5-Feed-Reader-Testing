@@ -1,11 +1,11 @@
 # How to run
 
-*Clone or download all files in this project repository
-*Within the directory 'frontend-nanodegree-feedreader' load index.html in a web browser
+* Clone or download all files in this project repository
+* Within the directory 'frontend-nanodegree-feedreader' load index.html in a web browser
 All other required files will load automatically from index.html
-*Once loaded Jasmine will spec test the application
-*Results from the spec test will appear at the footer/towards the bottom of the page
-*Inidividual tests can also be re-run by selecting them
+* Once loaded Jasmine will spec test the application
+* Results from the spec test will appear at the footer/towards the bottom of the page
+* Inidividual tests can also be re-run by selecting them
 
 
 # Project Overview
