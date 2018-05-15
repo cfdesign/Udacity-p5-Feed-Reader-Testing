@@ -1,3 +1,4 @@
+//**** Dear reviewer this is a student comment.
 /* feedreader.js
  *
  * This is the spec file that Jasmine will read and contains
@@ -31,30 +32,68 @@ $(function() {
          * in the allFeeds object and ensures it has a URL defined
          * and that the URL is not empty.
          */
+        it('URL defined & not empty', function() {
+            //**** check each item in the allFeeds array
+            allFeeds.forEach(function(feedItem){
+                //**** make sure the 'url' key exsists
+                expect(feedItem.url).toBeDefined();
+                //**** make sure the 'url' value exsists
+                expect(feedItem.url.length).not.toBe(0);
+            });
+        });
 
 
         /* TODO: Write a test that loops through each feed
          * in the allFeeds object and ensures it has a name defined
          * and that the name is not empty.
          */
+        it('name defined & not empty', function() {
+            //**** check each item in the allFeeds array
+            allFeeds.forEach(function(feedItem){
+                //**** make sure the 'name' key exsists
+                expect(feedItem.name).toBeDefined();
+                //**** make sure the 'name' value exsists
+                expect(feedItem.name.length).not.toBe(null);
+            });
+        });
     });
 
 
     /* TODO: Write a new test suite named "The menu" */
+    describe('The menu', function() {
+        //**** the body is used to toggle a class for the menu.
+        const body = document.querySelector('body');
 
         /* TODO: Write a test that ensures the menu element is
          * hidden by default. You'll have to analyze the HTML and
          * the CSS to determine how we're performing the
          * hiding/showing of the menu element.
          */
+        it('hidden by default', function() {
+            //**** menu-hidden class contains CSS to hide the menu off canvas/screen.
+            expect(body.className === 'menu-hidden').toEqual(true);
+        });
 
          /* TODO: Write a test that ensures the menu changes
           * visibility when the menu icon is clicked. This test
           * should have two expectations: does the menu display when
           * clicked and does it hide when clicked again.
           */
+        it('changes visibility when menu icon clicked', function() {
+            //**** menu-icon-link class is an event listener toggle button.
+            const target = document.querySelector('.menu-icon-link');
 
+            //**** ensure each click will toggle the class, to show/hide the menu.
+            target.click();
+            expect(body.className === 'menu-hidden').toEqual(false);
+
+            target.click();
+            expect(body.className === 'menu-hidden').toEqual(true);
+        });
+
+    });
     /* TODO: Write a new test suite named "Initial Entries" */
+    describe('Initial Entries', function() {
 
         /* TODO: Write a test that ensures when the loadFeed
          * function is called and completes its work, there is at least
@@ -62,11 +101,46 @@ $(function() {
          * Remember, loadFeed() is asynchronous so this test will require
          * the use of Jasmine's beforeEach and asynchronous done() function.
          */
+        beforeEach(function(done) {
+            //**** app.js loadFeed will use 'done' callback to return a function
+            loadFeed(0, done);
+        });
+
+        it('At least 1 entry within feed container', function(done) {
+            //**** lenght will count the number of entries placed in the feed container
+            expect(document.querySelectorAll('.entry').length).not.toBeLessThan(1);
+            done();
+        });
+    });
 
     /* TODO: Write a new test suite named "New Feed Selection" */
+    describe('New Feed Selection', function() {
+        //**** Will be used to store feed information & compare changes.
+        let feedOne,
+            feedTwo;
 
         /* TODO: Write a test that ensures when a new feed is loaded
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
          */
+        beforeEach(function(done) {
+            //**** load feed ID #1
+            loadFeed(1, function() {
+                //**** Take the text of the first feed title
+                feedOne = document.querySelector('.entry h2').innerHTML;
+            });
+            //**** load feed ID #2
+            loadFeed(2, function() {
+                //**** Take the text of the first feed title
+                feedTwo = document.querySelector('.entry h2').innerHTML;
+                done();
+            })
+        });
+
+        it('Ensure new feed content changes', function(done) {
+            //**** Compare the title text, make sure it has changed.
+            expect(feedOne).not.toEqual(feedTwo);
+            done();
+        });
+    });
 }());
