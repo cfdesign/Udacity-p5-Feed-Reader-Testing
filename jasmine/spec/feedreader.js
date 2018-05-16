@@ -53,7 +53,7 @@ $(function() {
                 //**** make sure the 'name' key exsists
                 expect(feedItem.name).toBeDefined();
                 //**** make sure the 'name' value exsists
-                expect(feedItem.name.length).not.toBe(null);
+                expect(feedItem.name.length).not.toBe(undefined);
             });
         });
     });
@@ -71,7 +71,7 @@ $(function() {
          */
         it('hidden by default', function() {
             //**** menu-hidden class contains CSS to hide the menu off canvas/screen.
-            expect(body.className === 'menu-hidden').toEqual(true);
+            expect(body.classList.contains('menu-hidden')).toEqual(true);
         });
 
          /* TODO: Write a test that ensures the menu changes
@@ -85,10 +85,10 @@ $(function() {
 
             //**** ensure each click will toggle the class, to show/hide the menu.
             target.click();
-            expect(body.className === 'menu-hidden').toEqual(false);
+            expect(body.classList.contains('menu-hidden')).toEqual(false);
 
             target.click();
-            expect(body.className === 'menu-hidden').toEqual(true);
+            expect(body.classList.contains('menu-hidden')).toEqual(true);
         });
 
     });
@@ -107,8 +107,8 @@ $(function() {
         });
 
         it('At least 1 entry within feed container', function(done) {
-            //**** lenght will count the number of entries placed in the feed container
-            expect(document.querySelectorAll('.entry').length).not.toBeLessThan(1);
+            //**** length will count the number of entries placed in the feed container
+            expect(document.querySelectorAll('.feed .entry').length).not.toBeLessThan(1);
             done();
         });
     });
@@ -128,16 +128,14 @@ $(function() {
             loadFeed(1, function() {
                 //**** Take the text of the first feed title
                 feedOne = document.querySelector('.entry h2').innerHTML;
+                //**** load feed ID #2
+                loadFeed(2, done);
             });
-            //**** load feed ID #2
-            loadFeed(2, function() {
-                //**** Take the text of the first feed title
-                feedTwo = document.querySelector('.entry h2').innerHTML;
-                done();
-            })
         });
 
         it('Ensure new feed content changes', function(done) {
+            //**** Take the text of the first feed title
+            feedTwo = document.querySelector('.entry h2').innerHTML;
             //**** Compare the title text, make sure it has changed.
             expect(feedOne).not.toEqual(feedTwo);
             done();
